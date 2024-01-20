@@ -257,33 +257,34 @@ export default function RamDodger3000(file, options) {
 
   simple(ast, {
     ExpressionStatement(node) {
-      if (node.directive) {
-        if (/^use _?[0-9A-Za-z_\.]*$/.test(node.directive))
-          ramDirectives.push({
-            type: "ExpressionStatement",
+      if (!node.directive) return;
+      if (!/^use _?[0-9A-Za-z_\.]*$/.test(node.directive)) return;
+      if (ramDirectives.find(d => d.directive == node.directive)) return;
+      ramDirectives.push({
+        type: "ExpressionStatement",
+        start: 0,
+        end: 0,
+        directive: node.directive,
+        expression: {
+          type: "MemberExpression",
+          start: 0,
+          end: 0,
+          object: {
+            type: "Identifier",
             start: 0,
             end: 0,
-            expression: {
-              type: "MemberExpression",
-              start: 0,
-              end: 0,
-              object: {
-                type: "Identifier",
-                start: 0,
-                end: 0,
-                name: 'ns'
-              },
-              property: {
-                type: "Identifier",
-                start: 0,
-                end: 0,
-                name: /^use (ns\.)?(_?[0-9A-Za-z_\.]*)$/.exec(node.directive)[2]
-              },
-              computed: false,
-              optional: false
-            }
-          });
-      }
+            name: 'ns'
+          },
+          property: {
+            type: "Identifier",
+            start: 0,
+            end: 0,
+            name: /^use (ns\.)?(_?[0-9A-Za-z_\.]*)$/.exec(node.directive)[2]
+          },
+          computed: false,
+          optional: false
+        }
+      });
     }
   });
 
