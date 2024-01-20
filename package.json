@@ -1,6 +1,6 @@
 {
   "name": "ramdodger3000",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "RAM dodger for BitBurner. Takes any script and transforms it into an equivalant version only costing the base RAM cost",
   "main": "index.mjs",
   "scripts": {
@@ -22,6 +22,7 @@
   "homepage": "https://github.com/shyguy1412/RamDodger3000#readme",
   "dependencies": {
     "acorn": "^8.11.3",
+    "acorn-walk": "^8.3.2",
     "escodegen": "^2.1.0"
   }
 }

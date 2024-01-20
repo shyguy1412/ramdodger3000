@@ -1,5 +1,6 @@
 import { generate } from 'escodegen';
 import { parse } from 'acorn';
+import { simple } from 'acorn-walk';
 
 /**
  * 
@@ -43,6 +44,10 @@ export default function RamDodger3000(file, options) {
    * @type {import('acorn').Statement[]}
    */
   const hoist = [];
+  /**
+   * @type {import('acorn').ExpressionStatement[]}
+   */
+  const ramDirectives = [];
 
   const DodgeMap = {
 
@@ -250,8 +255,65 @@ export default function RamDodger3000(file, options) {
     }
   };
 
+  simple(ast, {
+    ExpressionStatement(node) {
+      if (node.directive) {
+        if (/^use _?[0-9A-Za-z_\.]*$/.test(node.directive))
+          ramDirectives.push({
+            type: "ExpressionStatement",
+            start: 0,
+            end: 0,
+            expression: {
+              type: "MemberExpression",
+              start: 0,
+              end: 0,
+              object: {
+                type: "Identifier",
+                start: 0,
+                end: 0,
+                name: 'ns'
+              },
+              property: {
+                type: "Identifier",
+                start: 0,
+                end: 0,
+                name: /^use (ns\.)?(_?[0-9A-Za-z_\.]*)$/.exec(node.directive)[2]
+              },
+              computed: false,
+              optional: false
+            }
+          });
+      }
+    }
+  });
+
   ast.body = ast.body.map(node => (DodgeMap[node.type] ?? (_ => _))(node)).flat();
   ast.body.unshift(...hoist);
-
+  ast.body.unshift({
+    type: "ExpressionStatement",
+    expression: {
+      type: "ArrowFunctionExpression",
+      start: 0,
+      end: 0,
+      id: null,
+      expression: false,
+      generator: false,
+      async: false,
+      params: [
+        {
+          type: "Identifier",
+          start: 0,
+          end: 0,
+          name: "ns"
+        }
+      ],
+      body: {
+        type: "BlockStatement",
+        start: 0,
+        end: 0,
+        body: ramDirectives
+      }
+    }
+  });
   return generate(ast, options);
 }
