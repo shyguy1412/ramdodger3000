@@ -1,0 +1,27 @@
+{
+  "name": "ramdodger3000",
+  "version": "1.0.0",
+  "description": "RAM dodger for BitBurner. Takes any script and transforms it into an equivalant version only costing the base RAM cost",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shyguy1412/RamDodger3000.git"
+  },
+  "keywords": [
+    "bitburner",
+    "exploit"
+  ],
+  "author": "Nils Ramstöck",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shyguy1412/RamDodger3000/issues"
+  },
+  "homepage": "https://github.com/shyguy1412/RamDodger3000#readme",
+  "dependencies": {
+    "acorn": "^8.11.3",
+    "escodegen": "^2.1.0"
+  }
+}
