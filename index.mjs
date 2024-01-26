@@ -22,7 +22,10 @@ function generateEvalExpressionForNode(node) {
     arguments: [
       {
         type: 'Literal',
-        value: `${generate(node, { format: { compact: true } })}`,
+        value: `${generate({
+          type: "ExpressionStatement",
+          expression: node
+        }, { format: { compact: true, semicolons:false } })}`,
         start: 0,
         end: 0,
       }
