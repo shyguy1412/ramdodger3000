@@ -1,6 +1,7 @@
-import { generate } from 'escodegen';
+  import { generate } from 'astring';
 import { parse } from 'acorn';
 import { simple } from 'acorn-walk';
+import { writeFileSync } from 'fs';
 
 /**
  * 
@@ -22,10 +23,10 @@ function generateEvalExpressionForNode(node) {
     arguments: [
       {
         type: 'Literal',
-        value: `${generate({
+        value: generate(node.type == 'ExpressionStatement' ? node : {
           type: "ExpressionStatement",
           expression: node
-        }, { format: { compact: true, semicolons:false } })}`,
+        }),
         start: 0,
         end: 0,
       }
@@ -36,7 +37,7 @@ function generateEvalExpressionForNode(node) {
 /**
  * 
  * @param {string} file 
- * @param {import('escodegen').GenerateOptions | undefined} options 
+ * @param {import('astring').Options | undefined} options 
  * @returns 
  */
 export default function RamDodger3000(file, options) {
@@ -158,7 +159,9 @@ export default function RamDodger3000(file, options) {
               expression: {
                 type: 'FunctionExpression',
                 params: node.params,
-                body: node.body
+                body: node.body,
+                async: node.async,
+                generator: node.generator
               }
             })
             // init: generateEvalExpressionForNode(node)
@@ -319,5 +322,8 @@ export default function RamDodger3000(file, options) {
       }
     }
   });
+
+  // writeFileSync('ast_dump.json', JSON.stringify(ast, null, 2));
+
   return generate(ast, options);
 }

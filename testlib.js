@@ -88,16 +88,25 @@ export function m() {
   window;
 }
 
+export async function async_m() {
+  await window;
+}
+
 export class n {
   constructor() {
     window;
   }
 }
 
+var o = class extends n {
+  terminalInput = null;
+  terminalElement = null;
+};
+
 export { a, b, c, d };
 
 //ExportDefaultDeclaration
 export default window;
 
-//ExportAllDeclarataion
-// export * from '';
+// ExportAllDeclarataion
+export * from '';
