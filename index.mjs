@@ -1,4 +1,4 @@
-  import { generate } from 'astring';
+import { generate } from 'astring';
 import { parse } from 'acorn';
 import { simple } from 'acorn-walk';
 import { writeFileSync } from 'fs';
@@ -26,7 +26,7 @@ function generateEvalExpressionForNode(node) {
         value: generate(node.type == 'ExpressionStatement' ? node : {
           type: "ExpressionStatement",
           expression: node
-        }),
+        }, { indent: '', lineEnd: '' }),
         start: 0,
         end: 0,
       }
