@@ -1,6 +1,6 @@
 {
   "name": "ramdodger3000",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "RAM dodger for BitBurner. Takes any script and transforms it into an equivalant version only costing the base RAM cost",
   "main": "index.mjs",
   "scripts": {
